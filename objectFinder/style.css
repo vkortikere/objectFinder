@@ -1,0 +1,36 @@
+body{
+    background-size:cover;
+    font-family: 'Pangolin', cursive;
+}
+#start, #number_of_objects, #status{
+    font-size:18px;
+}
+canvas{
+    border:2px solid white;
+    border-radius:10px;
+    margin-top:130px;
+    box-shadow:5px 5px 5px white;
+}
+.copy_right_footer{
+    position:fixed;
+
+    font-size:18;
+    line-height:3;
+    width:100%;
+    text-align:center;
+    bottom:0;
+}
+.heading{
+margin-top:0;
+font-size:30px;
+width:100%;
+font-size:18px;
+font-weight:bold;
+}
+.note{
+    font-weight:bold;
+    font-size:14;
+}
+#objectName{
+    width: 40%;
+}
