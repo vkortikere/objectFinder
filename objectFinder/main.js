@@ -1,8 +1,7 @@
-status = ""
-object = ""
+status = "";
+objects =[];
+
 function preload(){
-    video = createVideo('video.mp4');
-    video.hide();
         }
     function setup(){
         canvas= createCanvas(380, 380);
@@ -10,9 +9,9 @@ function preload(){
         video = createCapture(VIDEO);
         video.hide();
         video.size(380, 380);
+        
     
-        objectDetector = ml5.objectDetector('cocossd', modelLoaded);
-        document.getElementById("status").innerHTML = "status : Detecting Objects";
+  
        
     }
     function modelLoaded()
@@ -28,21 +27,41 @@ function preload(){
         }
         console.log(results);
         objects = results;
-        if(objects == person){
-    
-        }
-    }
-    
-    
-    function draw(){
-        image(video, 0, 0, 380, 380);
+        
     }
     function start(){
         objectDetector = ml5.objectDetector('cocossd', modelLoaded);
         document.getElementById("status").innerHTML =  "status : Detecting Objects";
-        object = document.getElementById("objectName").innerHTML;
+        object_name = document.getElementById("objectName").value;
+        
     }
-    function modelLoaded(){
-        console.log("ModelLoaded!");
-        status = true;
+    
+    function draw(){
+        image(video, 0, 0, 380, 380);
+        if(status != "" ){
+            objectDetector.detect(video, gotResults);
+            for(i = 0; i < objects.length; i++){
+                document.getElementById("status").innerHTML = "Status: object Detected";
+                fill("#FF0000");
+                percent=floor(objects[i].confidence*100);
+                text(objects[i].label + "" + percent + "%", objects[i].x+15, objects[i].y  +15);
+                noFill();
+                stroke("#FF0000");
+                rect(objects[i].x, objects[i].y, objects[i].width, objects[i].height);
+
+                if (objects[i].label == object_name) {
+                    video.stop();
+                    objectDetector.detect(gotResults);
+                    document.getElementById("object_status").innerHTML = object_name + " Found"
+                    synth = window.speechSynthesis;
+                    utterThis = new SpeechSynthesisUtterance(object_name + "Found");
+                    synth.speak(utterThis);
+
+
+                }else{ 
+                    document.getElementById("object_status").innerHTML = object_name + "Not Found"               }
+            }
+        }
     }
+   
+ 
